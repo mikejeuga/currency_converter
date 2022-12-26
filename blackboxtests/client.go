@@ -26,11 +26,11 @@ func (t *TestUser) GetRate(base, foreign string) (models.Rate, error) {
 	return rate, nil
 }
 
-func (t *TestUser) Convert(amount models.Amount) (models.Amount, error) {
-	m := models.Amount{
-		Unit:     0,
-		Currency: models.Currency{},
-	}
-
-	return m, nil
+func (t *TestUser) Convert(amount models.Amount, rate models.Rate) (models.Amount, error) {
+	return models.Amount{
+		Unit: 0,
+		Currency: models.Currency{
+			Code: models.GBP,
+		},
+	}, nil
 }

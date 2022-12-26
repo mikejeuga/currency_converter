@@ -8,7 +8,7 @@ import (
 
 type Converter interface {
 	GetRate(base, foreign string) (models.Rate, error)
-	Convert(amount models.Amount) (models.Amount, error)
+	Convert(amount models.Amount, rate models.Rate) (models.Amount, error)
 }
 
 type CurrencyConversionSpec struct {
@@ -29,7 +29,9 @@ func (s *CurrencyConversionSpec) CanConverterBaseToForeign(t *testing.T) {
 	}
 
 	//When I need to convert it in USD
-	convertedAmount, err := s.converter.Convert(amountToConvert)
+	convertedAmount, err := s.converter.Convert(amountToConvert, models.Rate{
+		Spot: 0.87,
+	})
 	assert.NoError(t, err)
 
 	//Then I get a converted amount at the correct FX rate

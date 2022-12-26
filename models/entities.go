@@ -21,6 +21,5 @@ type Amount struct {
 }
 
 type Currency struct {
-	Code      string
-	TimeStamp time.Time
+	Code string
 }
