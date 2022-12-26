@@ -1,4 +1,4 @@
-package currency_converter
+package models
 
 const (
 	GBP = "GBP"

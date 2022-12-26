@@ -2,7 +2,6 @@ package specifications
 
 import (
 	"github.com/alecthomas/assert"
-	"github.com/mikejeuga/currency_converter"
 	"github.com/mikejeuga/currency_converter/models"
 	"testing"
 )
@@ -25,7 +24,7 @@ func (s *CurrencyConversionSpec) CanConverterBaseToForeign(t *testing.T) {
 	amountToConvert := models.Amount{
 		Unit: 2000,
 		Currency: models.Currency{
-			Code: currency_converter.GBP,
+			Code: models.GBP,
 		},
 	}
 
@@ -34,7 +33,7 @@ func (s *CurrencyConversionSpec) CanConverterBaseToForeign(t *testing.T) {
 	assert.NoError(t, err)
 
 	//Then I get a converted amount at the correct FX rate
-	rate, err := s.converter.GetRate(currency_converter.GBP, currency_converter.USD)
+	rate, err := s.converter.GetRate(models.GBP, models.USD)
 	assert.NoError(t, err)
 	assert.Equal(t, convertedAmount.Unit/amountToConvert.Unit, rate.Spot)
 }
