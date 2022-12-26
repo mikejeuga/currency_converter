@@ -17,5 +17,5 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag currency-converter:$(date +%s)
     
-    - name: Run functional tets
+    - name: Run functional tests
       run: make t
