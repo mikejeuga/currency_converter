@@ -6,9 +6,10 @@ import (
 	"testing"
 )
 
+//go:generate moq -out mocks/converter_moq.go -pkg=mocks . Converter
 type Converter interface {
 	GetRate(base, foreign string) (models.Rate, error)
-	Convert(amount models.Amount, rate models.Rate) (models.Amount, error)
+	Convert(amount models.Amount, foreignCurrency string) (models.Amount, error)
 }
 
 type CurrencyConversionSpec struct {
@@ -20,6 +21,7 @@ func NewCurrencyConversionSpec(converter Converter) *CurrencyConversionSpec {
 }
 
 func (s *CurrencyConversionSpec) CanConverterBaseToForeign(t *testing.T) {
+	t.Skip("Until it is ready")
 	//Given a base amount (GBP) in my bank account
 	amountToConvert := models.Amount{
 		Unit: 2000,
@@ -29,13 +31,12 @@ func (s *CurrencyConversionSpec) CanConverterBaseToForeign(t *testing.T) {
 	}
 
 	//When I need to convert it in USD
-	convertedAmount, err := s.converter.Convert(amountToConvert, models.Rate{
-		Spot: 0.87,
-	})
+	convertedAmount, err := s.converter.Convert(amountToConvert, models.USD)
 	assert.NoError(t, err)
 
 	//Then I get a converted amount at the correct FX rate
 	rate, err := s.converter.GetRate(models.GBP, models.USD)
 	assert.NoError(t, err)
+
 	assert.Equal(t, convertedAmount.Unit/amountToConvert.Unit, rate.Spot)
 }

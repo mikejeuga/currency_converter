@@ -1,1 +1,77 @@
 package rateapi
+
+import (
+	"encoding/json"
+	"github.com/mikejeuga/currency_converter/models"
+	"io"
+	"net/http"
+	"net/url"
+	"time"
+)
+
+type Client struct {
+	config Config
+	client *http.Client
+}
+
+type Config struct {
+	ApiURL string `envconfig:"API_URL"`
+	ApiKey string `envconfig:"X_API_KEY"`
+}
+
+func NewClient(config Config) *Client {
+	c := &http.Client{
+		Transport: http.DefaultTransport,
+		Timeout:   10 * time.Second,
+	}
+	return &Client{config: config, client: c}
+}
+
+func (c *Client) GetRate(base, foreign string) (models.Rate, error) {
+	rateURL, err := url.JoinPath(c.config.ApiURL, "convertcurrency")
+	if err != nil {
+		return models.Rate{}, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, rateURL, nil)
+	if err != nil {
+		return models.Rate{}, err
+	}
+
+	req.Header.Set("X-Api-Key", c.config.ApiKey)
+
+	res, err := c.client.Do(req)
+	if err != nil {
+		return models.Rate{}, err
+	}
+
+	data, err := io.ReadAll(res.Body)
+	if err != nil {
+		return models.Rate{}, err
+	}
+
+	var resRate RateResponse
+	err = json.Unmarshal(data, &resRate)
+	if err != nil {
+		return models.Rate{}, err
+	}
+
+	rate := models.Rate{
+		Spot: resRate.NewAmount / float64(resRate.OldAmount),
+	}
+
+	return rate, nil
+}
+
+func (c *Client) Convert(amount models.Amount, foreignCurrency string) (models.Amount, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func addQueryParams(req *http.Request, base, foreign string) {
+	q := req.URL.Query()
+	q.Add("have", base)
+	q.Add("want", foreign)
+	q.Add("amount", "1")
+	req.URL.RawQuery = q.Encode()
+}

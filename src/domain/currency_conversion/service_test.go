@@ -8,7 +8,7 @@ import (
 )
 
 func TestService(t *testing.T) {
-	//GIVEN a base amount and an exchange rate
+	//GIVEN a base amount and an exchange rate,
 	amount := models.Amount{
 		Unit: 1000,
 		Currency: models.Currency{
@@ -22,8 +22,10 @@ func TestService(t *testing.T) {
 
 	service := currency_conversion.NewService()
 
+	//WHEN the service converts the base currency,
 	convertedAmount := service.Convert(amount, exchangeRate)
 
-	expected := convertedAmount.Unit / amount.Unit
-	assert.Equal(t, exchangeRate.Spot, expected)
+	//THEN the conversion is executed at the correct rate.
+	actualRate := convertedAmount.Unit / amount.Unit
+	assert.Equal(t, exchangeRate.Spot, actualRate)
 }
