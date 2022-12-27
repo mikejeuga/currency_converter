@@ -2,7 +2,7 @@ version: '3.8'
 services:
   app:
     ports:
-      - '8087:8087'
+      - '8077:8077'
     restart: on-failure
     build:
       context: .

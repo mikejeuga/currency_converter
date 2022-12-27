@@ -1,3 +1,5 @@
+//+go:build unit
+
 package web_test
 
 import (
@@ -32,6 +34,12 @@ func TestServer(t *testing.T) {
 			description:    "Route to Rate endpoint '/rate'",
 			res:            httptest.NewRecorder(),
 			req:            httptest.NewRequest(http.MethodGet, "/rate", nil),
+			ExpectedStatus: http.StatusBadRequest,
+		},
+		{
+			description:    "Route to Rate endpoint '/rate?amount=1&have=GBP&want=USD'",
+			res:            httptest.NewRecorder(),
+			req:            httptest.NewRequest(http.MethodGet, "/rate?amount=1&have=GBP&want=USD", nil),
 			ExpectedStatus: http.StatusOK,
 		},
 	} {

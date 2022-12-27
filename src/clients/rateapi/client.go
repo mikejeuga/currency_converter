@@ -40,6 +40,8 @@ func (c *Client) GetRate(base, foreign string) (models.Rate, error) {
 
 	req.Header.Set("X-Api-Key", c.config.ApiKey)
 
+	addQueryParams(req, base, foreign)
+
 	res, err := c.client.Do(req)
 	if err != nil {
 		return models.Rate{}, err
@@ -57,7 +59,7 @@ func (c *Client) GetRate(base, foreign string) (models.Rate, error) {
 	}
 
 	rate := models.Rate{
-		Spot: resRate.NewAmount / float64(resRate.OldAmount),
+		Spot: resRate.NewAmount / resRate.OldAmount,
 	}
 
 	return rate, nil

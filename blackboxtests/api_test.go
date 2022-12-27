@@ -1,3 +1,5 @@
+//+go:build acceptance
+
 package blackboxtests
 
 import (
@@ -14,7 +16,7 @@ func TestAPI(t *testing.T) {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	
+
 	testUser := NewTestUser(c)
 	spec := specifications.NewCurrencyConversionSpec(testUser)
 	spec.CanConverterBaseToForeign(t)

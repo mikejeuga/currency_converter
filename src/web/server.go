@@ -22,7 +22,7 @@ func NewServer(converter specifications.Converter) *http.Server {
 	r.HandleFunc("/rate", s.GetRate).Methods(http.MethodGet)
 
 	return &http.Server{
-		Addr:    ":8087",
+		Addr:    ":8077",
 		Handler: r,
 	}
 }
@@ -34,6 +34,11 @@ func (s *Server) Home(w http.ResponseWriter, r *http.Request) {
 func (s *Server) GetRate(w http.ResponseWriter, r *http.Request) {
 	baseCurrency := r.URL.Query().Get("have")
 	fxCurrency := r.URL.Query().Get("want")
+
+	if baseCurrency == "" || fxCurrency == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 
 	rate, err := s.converter.GetRate(baseCurrency, fxCurrency)
 	if err != nil {

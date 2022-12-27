@@ -1,18 +1,14 @@
 package models
 
-import "time"
-
 type Rate struct {
-	Spot    float64
-	Forward float64
+	Spot float64
 }
 
 type FXRate map[Pair]Rate
 
 type Pair struct {
-	Base      string
-	Foreign   string
-	TimeStamp time.Time
+	Base    string
+	Foreign string
 }
 
 type Amount struct {

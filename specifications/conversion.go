@@ -21,7 +21,7 @@ func NewCurrencyConversionSpec(converter Converter) *CurrencyConversionSpec {
 }
 
 func (s *CurrencyConversionSpec) CanConverterBaseToForeign(t *testing.T) {
-	t.Skip("Until it is ready")
+	t.Skip("Still messing up")
 	//Given a base amount (GBP) in my bank account
 	amountToConvert := models.Amount{
 		Unit: 2000,
