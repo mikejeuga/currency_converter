@@ -89,6 +89,5 @@ func addQueryParams(req *http.Request, base, foreign string) {
 	q := req.URL.Query()
 	q.Add("have", base)
 	q.Add("want", foreign)
-	q.Add("amount", "1")
 	req.URL.RawQuery = q.Encode()
 }

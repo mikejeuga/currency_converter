@@ -37,9 +37,9 @@ func TestServer(t *testing.T) {
 			ExpectedStatus: http.StatusBadRequest,
 		},
 		{
-			description:    "Route to Rate endpoint '/rate?amount=1&have=GBP&want=USD'",
+			description:    "Route to Rate endpoint '/rate?have=GBP&want=USD'",
 			res:            httptest.NewRecorder(),
-			req:            httptest.NewRequest(http.MethodGet, "/rate?amount=1&have=GBP&want=USD", nil),
+			req:            httptest.NewRequest(http.MethodGet, "/rate?have=GBP&want=USD", nil),
 			ExpectedStatus: http.StatusOK,
 		},
 	} {
