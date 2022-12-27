@@ -54,7 +54,7 @@ func TestServer(t *testing.T) {
 }
 
 func givenGetRateWasCalled(deps Deps) {
-	deps.GatewayMock.GetRateFunc = func(base string, foreign string) (models.Rate, error) {
+	deps.GatewayMock.GetFXRateFunc = func(base string, foreign string) (models.Rate, error) {
 		return models.Rate{}, nil
 	}
 }

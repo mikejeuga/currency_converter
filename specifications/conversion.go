@@ -8,7 +8,7 @@ import (
 
 //go:generate moq -out mocks/converter_moq.go -pkg=mocks . Converter
 type Converter interface {
-	GetRate(base, foreign string) (models.Rate, error)
+	GetFXRate(base, foreign string) (models.Rate, error)
 	Convert(amount models.Amount, foreignCurrency string) (models.Amount, error)
 }
 
@@ -35,7 +35,7 @@ func (s *CurrencyConversionSpec) CanConverterBaseToForeign(t *testing.T) {
 	assert.NoError(t, err)
 
 	//Then I get a converted amount at the correct FX rate
-	rate, err := s.converter.GetRate(models.GBP, models.USD)
+	rate, err := s.converter.GetFXRate(models.GBP, models.USD)
 	assert.NoError(t, err)
 
 	assert.Equal(t, convertedAmount.Unit/amountToConvert.Unit, rate.Spot)

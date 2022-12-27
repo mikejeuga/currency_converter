@@ -17,13 +17,13 @@ func TestGateway(t *testing.T) {
 	expectedFXRate := 0.92
 	givenGetRateWasCalled(deps, expectedFXRate)
 
-	rate, err := gateway.GetRate(models.GBP, models.USD)
+	rate, err := gateway.GetFXRate(models.GBP, models.USD)
 	assert.NoError(t, err)
 	assert.Equal(t, expectedFXRate, rate.Spot)
 }
 
 func givenGetRateWasCalled(deps Deps, fxRate float64) {
-	deps.GatewayMock.GetRateFunc = func(base string, foreign string) (models.Rate, error) {
+	deps.GatewayMock.GetFXRateFunc = func(base string, foreign string) (models.Rate, error) {
 		return models.Rate{
 			Spot: fxRate,
 		}, nil

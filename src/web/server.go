@@ -40,7 +40,7 @@ func (s *Server) GetRate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	rate, err := s.converter.GetRate(baseCurrency, fxCurrency)
+	rate, err := s.converter.GetFXRate(baseCurrency, fxCurrency)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return

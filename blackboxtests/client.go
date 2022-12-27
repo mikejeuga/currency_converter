@@ -23,7 +23,7 @@ func NewTestUser(config config.Config) *TestUser {
 	return &TestUser{config: config, client: c}
 }
 
-func (u *TestUser) GetRate(base, foreign string) (models.Rate, error) {
+func (u *TestUser) GetFXRate(base, foreign string) (models.Rate, error) {
 	rateURL, err := url.JoinPath(u.config.BaseURL, "rate")
 	if err != nil {
 		return models.Rate{}, err
