@@ -65,11 +65,6 @@ func (c *Client) GetFXRate(base, foreign string) (models.Rate, error) {
 	return rate, nil
 }
 
-func (c *Client) Convert(amount models.Amount, foreignCurrency string) (models.Amount, error) {
-	//TODO implement me
-	panic("implement me")
-}
-
 func addQueryParams(req *http.Request, base, foreign string) {
 	q := req.URL.Query()
 	q.Add("have", base)

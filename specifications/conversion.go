@@ -6,7 +6,6 @@ import (
 	"testing"
 )
 
-//go:generate moq -out mocks/converter_moq.go -pkg=mocks . Converter
 type Converter interface {
 	GetFXRate(base, foreign string) (models.Rate, error)
 	Convert(amount models.Amount, foreignCurrency string) (models.Amount, error)
@@ -21,7 +20,6 @@ func NewCurrencyConversionSpec(converter Converter) *CurrencyConversionSpec {
 }
 
 func (s *CurrencyConversionSpec) CanConverterBaseToForeign(t *testing.T) {
-	t.Skip("Still messing up")
 	//Given a base amount (GBP) in my bank account
 	amountToConvert := models.Amount{
 		Unit: 2000,

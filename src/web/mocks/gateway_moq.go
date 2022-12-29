@@ -5,21 +5,21 @@ package mocks
 
 import (
 	"github.com/mikejeuga/currency_converter/models"
-	"github.com/mikejeuga/currency_converter/specifications"
+	"github.com/mikejeuga/currency_converter/src/web"
 	"sync"
 )
 
-// Ensure, that ConverterMock does implement specifications.Converter.
+// Ensure, that GatewayMock does implement web.Gateway.
 // If this is not the case, regenerate this file with moq.
-var _ specifications.Converter = &ConverterMock{}
+var _ web.Gateway = &GatewayMock{}
 
-// ConverterMock is a mock implementation of specifications.Converter.
+// GatewayMock is a mock implementation of web.Gateway.
 //
-//	func TestSomethingThatUsesConverter(t *testing.T) {
+//	func TestSomethingThatUsesGateway(t *testing.T) {
 //
-//		// make and configure a mocked specifications.Converter
-//		mockedConverter := &ConverterMock{
-//			ConvertFunc: func(amount models.Amount, foreignCurrency string) (models.Amount, error) {
+//		// make and configure a mocked web.Gateway
+//		mockedGateway := &GatewayMock{
+//			ConvertFunc: func(amount string, baseCurrency string, foreignCurrency string) (models.Amount, error) {
 //				panic("mock out the Convert method")
 //			},
 //			GetFXRateFunc: func(base string, foreign string) (models.Rate, error) {
@@ -27,13 +27,13 @@ var _ specifications.Converter = &ConverterMock{}
 //			},
 //		}
 //
-//		// use mockedConverter in code that requires specifications.Converter
+//		// use mockedGateway in code that requires web.Gateway
 //		// and then make assertions.
 //
 //	}
-type ConverterMock struct {
+type GatewayMock struct {
 	// ConvertFunc mocks the Convert method.
-	ConvertFunc func(amount models.Amount, foreignCurrency string) (models.Amount, error)
+	ConvertFunc func(amount string, baseCurrency string, foreignCurrency string) (models.Amount, error)
 
 	// GetFXRateFunc mocks the GetFXRate method.
 	GetFXRateFunc func(base string, foreign string) (models.Rate, error)
@@ -43,7 +43,9 @@ type ConverterMock struct {
 		// Convert holds details about calls to the Convert method.
 		Convert []struct {
 			// Amount is the amount argument value.
-			Amount models.Amount
+			Amount string
+			// BaseCurrency is the baseCurrency argument value.
+			BaseCurrency string
 			// ForeignCurrency is the foreignCurrency argument value.
 			ForeignCurrency string
 		}
@@ -60,33 +62,37 @@ type ConverterMock struct {
 }
 
 // Convert calls ConvertFunc.
-func (mock *ConverterMock) Convert(amount models.Amount, foreignCurrency string) (models.Amount, error) {
+func (mock *GatewayMock) Convert(amount string, baseCurrency string, foreignCurrency string) (models.Amount, error) {
 	if mock.ConvertFunc == nil {
-		panic("ConverterMock.ConvertFunc: method is nil but Converter.Convert was just called")
+		panic("GatewayMock.ConvertFunc: method is nil but Gateway.Convert was just called")
 	}
 	callInfo := struct {
-		Amount          models.Amount
+		Amount          string
+		BaseCurrency    string
 		ForeignCurrency string
 	}{
 		Amount:          amount,
+		BaseCurrency:    baseCurrency,
 		ForeignCurrency: foreignCurrency,
 	}
 	mock.lockConvert.Lock()
 	mock.calls.Convert = append(mock.calls.Convert, callInfo)
 	mock.lockConvert.Unlock()
-	return mock.ConvertFunc(amount, foreignCurrency)
+	return mock.ConvertFunc(amount, baseCurrency, foreignCurrency)
 }
 
 // ConvertCalls gets all the calls that were made to Convert.
 // Check the length with:
 //
-//	len(mockedConverter.ConvertCalls())
-func (mock *ConverterMock) ConvertCalls() []struct {
-	Amount          models.Amount
+//	len(mockedGateway.ConvertCalls())
+func (mock *GatewayMock) ConvertCalls() []struct {
+	Amount          string
+	BaseCurrency    string
 	ForeignCurrency string
 } {
 	var calls []struct {
-		Amount          models.Amount
+		Amount          string
+		BaseCurrency    string
 		ForeignCurrency string
 	}
 	mock.lockConvert.RLock()
@@ -96,9 +102,9 @@ func (mock *ConverterMock) ConvertCalls() []struct {
 }
 
 // GetFXRate calls GetFXRateFunc.
-func (mock *ConverterMock) GetFXRate(base string, foreign string) (models.Rate, error) {
+func (mock *GatewayMock) GetFXRate(base string, foreign string) (models.Rate, error) {
 	if mock.GetFXRateFunc == nil {
-		panic("ConverterMock.GetFXRateFunc: method is nil but Converter.GetFXRate was just called")
+		panic("GatewayMock.GetFXRateFunc: method is nil but Gateway.GetFXRate was just called")
 	}
 	callInfo := struct {
 		Base    string
@@ -116,8 +122,8 @@ func (mock *ConverterMock) GetFXRate(base string, foreign string) (models.Rate, 
 // GetFXRateCalls gets all the calls that were made to GetFXRate.
 // Check the length with:
 //
-//	len(mockedConverter.GetFXRateCalls())
-func (mock *ConverterMock) GetFXRateCalls() []struct {
+//	len(mockedGateway.GetFXRateCalls())
+func (mock *GatewayMock) GetFXRateCalls() []struct {
 	Base    string
 	Foreign string
 } {

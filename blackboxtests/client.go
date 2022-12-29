@@ -2,6 +2,7 @@ package blackboxtests
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/mikejeuga/currency_converter/config"
 	"github.com/mikejeuga/currency_converter/models"
 	"io"
@@ -36,7 +37,7 @@ func (u *TestUser) GetFXRate(base, foreign string) (models.Rate, error) {
 
 	req.Header.Set("X-Api-Key", u.config.ApiKey)
 
-	addQueryParams(req, base, foreign)
+	addQueryParams(req, "1", base, foreign)
 
 	res, err := u.client.Do(req)
 	if err != nil {
@@ -70,7 +71,9 @@ func (u *TestUser) Convert(amount models.Amount, foreignCurrency string) (models
 
 	req.Header.Set("X-Api-Key", u.config.ApiKey)
 
-	addQueryParams(req, amount.Currency.Code, foreignCurrency)
+	amountStr := fmt.Sprintf("%.2f", amount.Unit)
+
+	addQueryParams(req, amountStr, amount.Currency.Code, foreignCurrency)
 
 	res, err := u.client.Do(req)
 	data, err := io.ReadAll(res.Body)
@@ -85,8 +88,9 @@ func (u *TestUser) Convert(amount models.Amount, foreignCurrency string) (models
 
 }
 
-func addQueryParams(req *http.Request, base, foreign string) {
+func addQueryParams(req *http.Request, amount, base, foreign string) {
 	q := req.URL.Query()
+	q.Add("amount", amount)
 	q.Add("have", base)
 	q.Add("want", foreign)
 	req.URL.RawQuery = q.Encode()

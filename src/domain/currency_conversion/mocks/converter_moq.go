@@ -19,9 +19,6 @@ var _ currency_conversion.Converter = &ConverterMock{}
 //
 //		// make and configure a mocked currency_conversion.Converter
 //		mockedConverter := &ConverterMock{
-//			ConvertFunc: func(amount models.Amount, foreignCurrency string) (models.Amount, error) {
-//				panic("mock out the Convert method")
-//			},
 //			GetFXRateFunc: func(base string, foreign string) (models.Rate, error) {
 //				panic("mock out the GetFXRate method")
 //			},
@@ -32,21 +29,11 @@ var _ currency_conversion.Converter = &ConverterMock{}
 //
 //	}
 type ConverterMock struct {
-	// ConvertFunc mocks the Convert method.
-	ConvertFunc func(amount models.Amount, foreignCurrency string) (models.Amount, error)
-
 	// GetFXRateFunc mocks the GetFXRate method.
 	GetFXRateFunc func(base string, foreign string) (models.Rate, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
-		// Convert holds details about calls to the Convert method.
-		Convert []struct {
-			// Amount is the amount argument value.
-			Amount models.Amount
-			// ForeignCurrency is the foreignCurrency argument value.
-			ForeignCurrency string
-		}
 		// GetFXRate holds details about calls to the GetFXRate method.
 		GetFXRate []struct {
 			// Base is the base argument value.
@@ -55,44 +42,7 @@ type ConverterMock struct {
 			Foreign string
 		}
 	}
-	lockConvert   sync.RWMutex
 	lockGetFXRate sync.RWMutex
-}
-
-// Convert calls ConvertFunc.
-func (mock *ConverterMock) Convert(amount models.Amount, foreignCurrency string) (models.Amount, error) {
-	if mock.ConvertFunc == nil {
-		panic("ConverterMock.ConvertFunc: method is nil but Converter.Convert was just called")
-	}
-	callInfo := struct {
-		Amount          models.Amount
-		ForeignCurrency string
-	}{
-		Amount:          amount,
-		ForeignCurrency: foreignCurrency,
-	}
-	mock.lockConvert.Lock()
-	mock.calls.Convert = append(mock.calls.Convert, callInfo)
-	mock.lockConvert.Unlock()
-	return mock.ConvertFunc(amount, foreignCurrency)
-}
-
-// ConvertCalls gets all the calls that were made to Convert.
-// Check the length with:
-//
-//	len(mockedConverter.ConvertCalls())
-func (mock *ConverterMock) ConvertCalls() []struct {
-	Amount          models.Amount
-	ForeignCurrency string
-} {
-	var calls []struct {
-		Amount          models.Amount
-		ForeignCurrency string
-	}
-	mock.lockConvert.RLock()
-	calls = mock.calls.Convert
-	mock.lockConvert.RUnlock()
-	return calls
 }
 
 // GetFXRate calls GetFXRateFunc.
