@@ -25,7 +25,7 @@ func TestService(t *testing.T) {
 	service := currency_conversion.NewService()
 
 	//WHEN the service converts the base currency,
-	convertedAmount := service.Convert(amount, exchangeRate)
+	convertedAmount := service.Convert(amount, "USD", exchangeRate)
 
 	//THEN the conversion is executed at the correct rate.
 	actualRate := convertedAmount.Unit / amount.Unit

@@ -40,7 +40,5 @@ func (g *Gateway) Convert(amount, baseCurrency, foreignCurrency string) (models.
 		},
 	}
 
-	convert := g.service.Convert(m, rate)
-	convert.Currency.Code = foreignCurrency
-	return convert, nil
+	return g.service.Convert(m, foreignCurrency, rate), nil
 }
