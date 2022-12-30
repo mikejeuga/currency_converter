@@ -5,8 +5,8 @@ package currency_conversion_test
 import (
 	"github.com/alecthomas/assert"
 	"github.com/mikejeuga/currency_converter/models"
-	"github.com/mikejeuga/currency_converter/specifications/mocks"
 	"github.com/mikejeuga/currency_converter/src/domain/currency_conversion"
+	mocks2 "github.com/mikejeuga/currency_converter/src/web/mocks"
 	"testing"
 )
 
@@ -31,11 +31,11 @@ func givenGetRateWasCalled(deps Deps, fxRate float64) {
 }
 
 type Deps struct {
-	GatewayMock *mocks.ConverterMock
+	GatewayMock *mocks2.GatewayMock
 }
 
 func CreateDeps() Deps {
 	return Deps{
-		GatewayMock: &mocks.ConverterMock{},
+		GatewayMock: &mocks2.GatewayMock{},
 	}
 }

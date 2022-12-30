@@ -19,7 +19,7 @@ run:
 
 t: test
 test:
-	@make ut at
+	@make at ut
 
 ut: unit-test
 unit-test:
@@ -27,9 +27,7 @@ unit-test:
 
 at: acceptance-test
 acceptance-test:
-	@docker-compose -f docker-compose.yml up -d
-	@go test -v -tags=acceptance ./...
-	@docker-compose down
+	@go test -v -tags=acceptance ./blackboxtests/...
 
 ic: init
 init:
