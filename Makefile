@@ -24,7 +24,7 @@ test:
 
 ut: unit-test
 unit-test:
-	@go test -v --tags=unit .src/...
+	@go test -v --tags=unit ./src/...
 
 at: acceptance-test
 acceptance-test:
