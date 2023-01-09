@@ -9,6 +9,7 @@ import (
 	"github.com/mikejeuga/currency_converter/models"
 	"github.com/mikejeuga/currency_converter/src/domain/currency_conversion"
 	"github.com/mikejeuga/currency_converter/src/web"
+	"github.com/mikejeuga/currency_converter/src/web/auth"
 	mocks2 "github.com/mikejeuga/currency_converter/src/web/mocks"
 	"log"
 	"net/http"
@@ -65,7 +66,7 @@ func TestServer(t *testing.T) {
 		},
 	} {
 		t.Run(tc.description, func(t *testing.T) {
-			tc.req.Header.Set("X-API-KEY", testConf.ApiKey)
+			tc.req.Header.Set(auth.TheApiKey, testConf.ApiKey)
 			givenGetRateWasCalled(deps)
 			server.Handler.ServeHTTP(tc.res, tc.req)
 

@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/mikejeuga/currency_converter/config"
 	"github.com/mikejeuga/currency_converter/models"
+	"github.com/mikejeuga/currency_converter/src/web/auth"
 	"io"
 	"net/http"
 	"net/url"
@@ -37,7 +38,7 @@ func (u *TestUser) GetFXRate(base, foreign string) (models.Rate, error) {
 		return models.Rate{}, err
 	}
 
-	req.Header.Set("X-Api-Key", u.config.ApiKey)
+	req.Header.Set(auth.TheApiKey, u.config.ApiKey)
 
 	addQueryParams(req, "1", base, foreign)
 
@@ -71,7 +72,7 @@ func (u *TestUser) Convert(amount models.Amount, foreignCurrency string) (models
 		return models.Amount{}, err
 	}
 
-	req.Header.Set("X-Api-Key", u.config.ApiKey)
+	req.Header.Set(auth.TheApiKey, u.config.ApiKey)
 
 	amountStr := fmt.Sprintf("%.2f", amount.Unit)
 

@@ -46,7 +46,7 @@ func TestMiddleware(t *testing.T) {
 		},
 	} {
 		t.Run(tc.description, func(t *testing.T) {
-			tc.req.Header.Set("X-Api-Key", tc.authHeader)
+			tc.req.Header.Set(auth.TheApiKey, tc.authHeader)
 			nextCalled := false
 			testHandler := func(w http.ResponseWriter, r *http.Request) {
 				nextCalled = true

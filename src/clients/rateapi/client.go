@@ -3,6 +3,7 @@ package rateapi
 import (
 	"encoding/json"
 	"github.com/mikejeuga/currency_converter/models"
+	"github.com/mikejeuga/currency_converter/src/web/auth"
 	"io"
 	"net/http"
 	"net/url"
@@ -21,7 +22,7 @@ type Config struct {
 
 func NewClient(config Config) *Client {
 	c := &http.Client{
-		Transport: http.DefaultTransport,
+		Transport: auth.MyRoundTripper{Next: http.DefaultTransport},
 		Timeout:   10 * time.Second,
 	}
 	return &Client{config: config, client: c}
@@ -38,7 +39,7 @@ func (c *Client) GetFXRate(base, foreign string) (models.Rate, error) {
 		return models.Rate{}, err
 	}
 
-	req.Header.Set("X-Api-Key", c.config.ApiKey)
+	req.Header.Set(auth.TheApiKey, c.config.ApiKey)
 
 	addQueryParams(req, base, foreign)
 
