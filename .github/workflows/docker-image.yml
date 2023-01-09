@@ -14,6 +14,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+        go-version: 1.19
+
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag currency-converter:$(date +%s)
 
