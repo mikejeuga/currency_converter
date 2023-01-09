@@ -19,12 +19,12 @@ run:
 
 t: test
 test:
-	@make at ut
+	@make ut at
 
 
 ut: unit-test
 unit-test:
-	@go test -v --tags=unit ./...
+	@go test -v --tags=unit .src/...
 
 at: acceptance-test
 acceptance-test:
