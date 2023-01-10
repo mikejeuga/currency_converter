@@ -23,14 +23,13 @@ type Config struct {
 
 func NewClient(config Config) *Client {
 	c := &http.Client{
-		Transport: http.DefaultTransport,
+		Transport: auth.MyRoundTripper{Next: http.DefaultTransport},
 		Timeout:   10 * time.Second,
 	}
 	return &Client{config: config, client: c}
 }
 
 func (c *Client) GetFXRate(base, foreign string) (models.Rate, error) {
-	fmt.Println(c.config)
 	rateURL, err := url.JoinPath(c.config.ApiURL, "convertcurrency")
 	if err != nil {
 		return models.Rate{}, err
@@ -38,17 +37,13 @@ func (c *Client) GetFXRate(base, foreign string) (models.Rate, error) {
 
 	req, err := http.NewRequest(http.MethodGet, rateURL, nil)
 	if err != nil {
-		panic("ARRIVING HERE")
 		return models.Rate{}, err
 	}
 
 	addQueryParams(req, base, foreign)
 
-	req.Header.Set(auth.TheApiKey, c.config.ApiKey)
-
 	res, err := c.client.Do(req)
 	if err != nil {
-		panic("ARRIVING THERE")
 		return models.Rate{}, err
 	}
 

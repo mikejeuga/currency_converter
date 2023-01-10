@@ -4,7 +4,6 @@ import (
 	"context"
 	"crypto/md5"
 	"encoding/hex"
-	"fmt"
 	"github.com/mikejeuga/currency_converter/config"
 	"net/http"
 )
@@ -16,7 +15,6 @@ func NewMiddleware(config config.Config) func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			headerVal := r.Header.Get(TheApiKey)
 			if headerVal != config.ApiKey {
-				fmt.Println(headerVal + " is not " + config.ApiKey)
 				w.WriteHeader(http.StatusUnauthorized)
 				return
 			}
