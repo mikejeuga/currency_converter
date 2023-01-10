@@ -42,7 +42,7 @@ func (c *Client) GetFXRate(base, foreign string) (models.Rate, error) {
 
 	addQueryParams(req, base, foreign)
 
-	fmt.Println(rateURL)
+	fmt.Println("############# " + rateURL + " ##################")
 
 	res, err := c.client.Do(req)
 	if err != nil {
