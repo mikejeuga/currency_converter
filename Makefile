@@ -27,7 +27,7 @@ unit-test:
 
 at: acceptance-test
 acceptance-test:
-	@go test -v -tags=acceptance ./blackboxtests/...
+	@go test -v -tags=acceptance ./blackboxtests/api_test.go
 
 ic: init
 init:

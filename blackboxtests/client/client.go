@@ -49,19 +49,20 @@ func (u *TestUser) GetFXRate(base, foreign string) (models.Rate, error) {
 		return models.Rate{}, err
 	}
 
+	fmt.Println(res.StatusCode)
+
 	data, err := io.ReadAll(res.Body)
 	if err != nil {
 		return models.Rate{}, err
 	}
 
-	if string(data) == "" {
+	dataTrimmed := strings.TrimSuffix(string(data), "\n")
+	if string(dataTrimmed) == "" {
 		return models.Rate{}, err
 	}
 
-	suffix := strings.TrimSuffix(string(data), "\n")
-
 	var rateRes models.Rate
-	err = json.Unmarshal([]byte(suffix), &rateRes)
+	err = json.Unmarshal([]byte(dataTrimmed), &rateRes)
 	if err != nil {
 		return models.Rate{}, err
 	}
