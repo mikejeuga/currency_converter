@@ -4,6 +4,7 @@ package blackboxtests
 
 import (
 	"github.com/kelseyhightower/envconfig"
+	"github.com/mikejeuga/currency_converter/blackboxtests/client"
 	"github.com/mikejeuga/currency_converter/config"
 	"github.com/mikejeuga/currency_converter/specifications"
 	"log"
@@ -17,7 +18,7 @@ func TestAPI(t *testing.T) {
 		log.Fatal(err.Error())
 	}
 
-	testUser := NewTestUser(c)
+	testUser := client.NewTestUser(c)
 	spec := specifications.NewCurrencyConversionSpec(testUser)
 	spec.CanConverterBaseToForeign(t)
 }

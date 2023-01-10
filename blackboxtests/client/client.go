@@ -1,6 +1,6 @@
 //+go:build acceptance
 
-package blackboxtests
+package client
 
 import (
 	"encoding/json"
@@ -39,7 +39,7 @@ func (u *TestUser) GetFXRate(base, foreign string) (models.Rate, error) {
 	}
 
 	req.Header.Set(auth.TheApiKey, u.config.ApiKey)
-
+	req.Header.Set("Content-Type", "application/json")
 	addQueryParams(req, "1", base, foreign)
 
 	res, err := u.client.Do(req)
@@ -79,7 +79,6 @@ func (u *TestUser) Convert(amount models.Amount, foreignCurrency string) (models
 	addQueryParams(req, amountStr, amount.Currency.Code, foreignCurrency)
 
 	res, err := u.client.Do(req)
-	fmt.Println(res.StatusCode)
 	if err != nil {
 		return models.Amount{}, err
 	}

@@ -17,7 +17,7 @@ type Client struct {
 
 type Config struct {
 	ApiURL string `envconfig:"API_URL"`
-	ApiKey string `envconfig:"X_API_KEY"`
+	//ApiKey string `envconfig:"X_API_KEY"`
 }
 
 func NewClient(config Config) *Client {

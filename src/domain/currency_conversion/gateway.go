@@ -21,7 +21,6 @@ func NewGateway(client Conversioner, service *Service) *Gateway {
 
 func (g *Gateway) GetRate(base, foreign string) (models.Rate, error) {
 	rate, err := g.client.GetFXRate(base, foreign)
-
 	if err != nil {
 		return models.Rate{}, err
 	}

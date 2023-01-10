@@ -33,7 +33,7 @@ func (s *CurrencyConversionSpec) CanConverterBaseToForeign(t *testing.T) {
 	//assert.NoError(t, err)
 
 	//Then I get a converted amount at the correct FX rate
-	_, err := s.converter.GetFXRate(models.GBP, models.USD)
+	_, err := s.converter.GetFXRate(models.EUR, models.USD)
 	assert.NoError(t, err)
 
 	//assert.Equal(t, convertedAmount.Unit/amountToConvert.Unit, rate.Spot)
