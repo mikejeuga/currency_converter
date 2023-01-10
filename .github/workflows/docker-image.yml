@@ -30,7 +30,8 @@ jobs:
         API_URL: ${{secrets.API_URL}}
         BASE_URL: ${{secrets.BASE_URL}}
 
-      run: echo ${{secrets.BASE_URL}} make t
+      if: env.BASE_URL != ''
+      run: echo $WHAT THE HELL
 
     - name: Shut down container
       run: docker-compose down
