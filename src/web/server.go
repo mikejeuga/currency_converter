@@ -12,7 +12,7 @@ import (
 
 //go:generate moq -out mocks/gateway_moq.go -pkg=mocks . Gateway
 type Gateway interface {
-	GetFXRate(base, foreign string) (models.Rate, error)
+	GetRate(base, foreign string) (models.Rate, error)
 	Convert(amount, baseCurrency, foreignCurrency string) (models.Amount, error)
 }
 
@@ -52,7 +52,7 @@ func (s *Server) GetRate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	rate, err := s.converter.GetFXRate(baseCurrency, fxCurrency)
+	rate, err := s.converter.GetRate(baseCurrency, fxCurrency)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return

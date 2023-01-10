@@ -19,8 +19,8 @@ var _ currency_conversion.Conversioner = &ConversionerMock{}
 //
 //		// make and configure a mocked currency_conversion.Conversioner
 //		mockedConversioner := &ConversionerMock{
-//			GetFXRateFunc: func(base string, foreign string) (models.Rate, error) {
-//				panic("mock out the GetFXRate method")
+//			GetRateFunc: func(base string, foreign string) (models.Rate, error) {
+//				panic("mock out the GetRate method")
 //			},
 //		}
 //
@@ -29,26 +29,26 @@ var _ currency_conversion.Conversioner = &ConversionerMock{}
 //
 //	}
 type ConversionerMock struct {
-	// GetFXRateFunc mocks the GetFXRate method.
-	GetFXRateFunc func(base string, foreign string) (models.Rate, error)
+	// GetRateFunc mocks the GetRate method.
+	GetRateFunc func(base string, foreign string) (models.Rate, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
-		// GetFXRate holds details about calls to the GetFXRate method.
-		GetFXRate []struct {
+		// GetRate holds details about calls to the GetRate method.
+		GetRate []struct {
 			// Base is the base argument value.
 			Base string
 			// Foreign is the foreign argument value.
 			Foreign string
 		}
 	}
-	lockGetFXRate sync.RWMutex
+	lockGetRate sync.RWMutex
 }
 
-// GetFXRate calls GetFXRateFunc.
-func (mock *ConversionerMock) GetFXRate(base string, foreign string) (models.Rate, error) {
-	if mock.GetFXRateFunc == nil {
-		panic("ConversionerMock.GetFXRateFunc: method is nil but Conversioner.GetFXRate was just called")
+// GetRate calls GetRateFunc.
+func (mock *ConversionerMock) GetRate(base string, foreign string) (models.Rate, error) {
+	if mock.GetRateFunc == nil {
+		panic("ConversionerMock.GetRateFunc: method is nil but Conversioner.GetRate was just called")
 	}
 	callInfo := struct {
 		Base    string
@@ -57,17 +57,17 @@ func (mock *ConversionerMock) GetFXRate(base string, foreign string) (models.Rat
 		Base:    base,
 		Foreign: foreign,
 	}
-	mock.lockGetFXRate.Lock()
-	mock.calls.GetFXRate = append(mock.calls.GetFXRate, callInfo)
-	mock.lockGetFXRate.Unlock()
-	return mock.GetFXRateFunc(base, foreign)
+	mock.lockGetRate.Lock()
+	mock.calls.GetRate = append(mock.calls.GetRate, callInfo)
+	mock.lockGetRate.Unlock()
+	return mock.GetRateFunc(base, foreign)
 }
 
-// GetFXRateCalls gets all the calls that were made to GetFXRate.
+// GetRateCalls gets all the calls that were made to GetRate.
 // Check the length with:
 //
-//	len(mockedConversioner.GetFXRateCalls())
-func (mock *ConversionerMock) GetFXRateCalls() []struct {
+//	len(mockedConversioner.GetRateCalls())
+func (mock *ConversionerMock) GetRateCalls() []struct {
 	Base    string
 	Foreign string
 } {
@@ -75,8 +75,8 @@ func (mock *ConversionerMock) GetFXRateCalls() []struct {
 		Base    string
 		Foreign string
 	}
-	mock.lockGetFXRate.RLock()
-	calls = mock.calls.GetFXRate
-	mock.lockGetFXRate.RUnlock()
+	mock.lockGetRate.RLock()
+	calls = mock.calls.GetRate
+	mock.lockGetRate.RUnlock()
 	return calls
 }

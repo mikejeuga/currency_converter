@@ -29,7 +29,7 @@ func NewClient(config Config) *Client {
 	return &Client{config: config, client: c}
 }
 
-func (c *Client) GetFXRate(base, foreign string) (models.Rate, error) {
+func (c *Client) GetRate(base, foreign string) (models.Rate, error) {
 	rateURL, err := url.JoinPath(c.config.ApiURL, "convertcurrency")
 	if err != nil {
 		return models.Rate{}, err

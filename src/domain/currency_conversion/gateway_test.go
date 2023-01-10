@@ -17,7 +17,7 @@ func TestGateway(t *testing.T) {
 	expectedFXRate := 0.92
 	givenGetRateWasCalled(deps, expectedFXRate)
 
-	rate, err := gateway.GetFXRate(models.GBP, models.USD)
+	rate, err := gateway.GetRate(models.GBP, models.USD)
 	assert.NoError(t, err)
 	assert.Equal(t, expectedFXRate, rate.Spot)
 }

@@ -46,7 +46,7 @@ type ConverterMock struct {
 }
 
 // GetFXRate calls GetFXRateFunc.
-func (mock *ConverterMock) GetFXRate(base string, foreign string) (models.Rate, error) {
+func (mock *ConverterMock) GetRate(base string, foreign string) (models.Rate, error) {
 	if mock.GetFXRateFunc == nil {
 		panic("ConverterMock.GetFXRateFunc: method is nil but Converter.GetFXRate was just called")
 	}

@@ -102,7 +102,7 @@ func (mock *GatewayMock) ConvertCalls() []struct {
 }
 
 // GetFXRate calls GetFXRateFunc.
-func (mock *GatewayMock) GetFXRate(base string, foreign string) (models.Rate, error) {
+func (mock *GatewayMock) GetRate(base string, foreign string) (models.Rate, error) {
 	if mock.GetFXRateFunc == nil {
 		panic("GatewayMock.GetFXRateFunc: method is nil but Gateway.GetFXRate was just called")
 	}
