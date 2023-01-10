@@ -42,7 +42,7 @@ func (c *Client) GetRate(base, foreign string) (models.Rate, error) {
 
 	addQueryParams(req, base, foreign)
 
-	fmt.Println(req.URL.String())
+	fmt.Println("############## " + req.URL.String() + " ##############")
 
 	res, err := c.client.Do(req)
 	if err != nil {
