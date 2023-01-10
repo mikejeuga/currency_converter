@@ -52,7 +52,10 @@ func (c *Client) GetFXRate(base, foreign string) (models.Rate, error) {
 		return models.Rate{}, err
 	}
 
+	fmt.Println(res)
+
 	data, err := io.ReadAll(res.Body)
+	fmt.Println(data)
 	if err != nil {
 		return models.Rate{}, err
 	}
@@ -63,11 +66,7 @@ func (c *Client) GetFXRate(base, foreign string) (models.Rate, error) {
 		return models.Rate{}, err
 	}
 
-	rate := models.Rate{
-		Spot: resRate.NewAmount / resRate.OldAmount,
-	}
-
-	return rate, nil
+	return models.Rate{Spot: resRate.NewAmount / resRate.OldAmount}, nil
 }
 
 func addQueryParams(req *http.Request, base, foreign string) {
