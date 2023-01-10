@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/kelseyhightower/envconfig"
 	"github.com/mikejeuga/currency_converter/config"
 	"github.com/mikejeuga/currency_converter/src/clients/rateapi"
@@ -21,6 +22,9 @@ func main() {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+
+	fmt.Println(rateApiConfig)
+	fmt.Println(c)
 
 	client := rateapi.NewClient(rateApiConfig)
 	service := currency_conversion.NewService()

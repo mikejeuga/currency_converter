@@ -23,7 +23,7 @@ type Config struct {
 
 func NewClient(config Config) *Client {
 	c := &http.Client{
-		Transport: auth.MyRoundTripper{Next: http.DefaultTransport},
+		Transport: http.DefaultTransport,
 		Timeout:   10 * time.Second,
 	}
 	return &Client{config: config, client: c}
@@ -42,7 +42,7 @@ func (c *Client) GetFXRate(base, foreign string) (models.Rate, error) {
 
 	addQueryParams(req, base, foreign)
 
-	//req.Header.Set(auth.TheApiKey, c.config.ApiKey)
+	req.Header.Set(auth.TheApiKey, c.config.ApiKey)
 
 	res, err := c.client.Do(req)
 	if err != nil {
