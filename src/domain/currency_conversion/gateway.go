@@ -20,6 +20,7 @@ func NewGateway(client Conversioner, service *Service) *Gateway {
 }
 
 func (g *Gateway) GetRate(base, foreign string) (models.Rate, error) {
+
 	return g.client.GetFXRate(base, foreign)
 }
 

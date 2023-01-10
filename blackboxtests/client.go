@@ -28,7 +28,6 @@ func NewTestUser(config config.Config) *TestUser {
 }
 
 func (u *TestUser) GetFXRate(base, foreign string) (models.Rate, error) {
-	fmt.Println(u.config)
 	rateURL, err := url.JoinPath(u.config.BaseURL, "rate")
 	if err != nil {
 		return models.Rate{}, err

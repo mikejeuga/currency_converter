@@ -52,7 +52,7 @@ func (c *Client) GetFXRate(base, foreign string) (models.Rate, error) {
 		return models.Rate{}, err
 	}
 
-	fmt.Println(res)
+	fmt.Println(res.StatusCode)
 
 	data, err := io.ReadAll(res.Body)
 	fmt.Println(data)
