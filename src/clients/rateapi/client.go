@@ -37,6 +37,7 @@ func (c *Client) GetFXRate(base, foreign string) (models.Rate, error) {
 
 	req, err := http.NewRequest(http.MethodGet, rateURL, nil)
 	if err != nil {
+		panic("ARRIVING HERE")
 		return models.Rate{}, err
 	}
 
@@ -45,8 +46,8 @@ func (c *Client) GetFXRate(base, foreign string) (models.Rate, error) {
 	req.Header.Set(auth.TheApiKey, c.config.ApiKey)
 
 	res, err := c.client.Do(req)
-	fmt.Println(res.StatusCode)
 	if err != nil {
+		panic("ARRIVING THERE")
 		return models.Rate{}, err
 	}
 
