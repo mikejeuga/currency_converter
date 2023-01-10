@@ -79,7 +79,13 @@ func (u *TestUser) Convert(amount models.Amount, foreignCurrency string) (models
 	addQueryParams(req, amountStr, amount.Currency.Code, foreignCurrency)
 
 	res, err := u.client.Do(req)
+	if err != nil {
+		return models.Amount{}, err
+	}
 	data, err := io.ReadAll(res.Body)
+	if err != nil {
+		return models.Amount{}, err
+	}
 
 	var returnedAmount models.Amount
 	err = json.Unmarshal(data, &returnedAmount)
