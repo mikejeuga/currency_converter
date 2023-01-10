@@ -2,6 +2,7 @@ package rateapi
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/mikejeuga/currency_converter/models"
 	"github.com/mikejeuga/currency_converter/src/web/auth"
 	"io"
@@ -34,12 +35,16 @@ func (c *Client) GetFXRate(base, foreign string) (models.Rate, error) {
 		return models.Rate{}, err
 	}
 
+	fmt.Println("############# " + rateURL + " ##################")
+
 	req, err := http.NewRequest(http.MethodGet, rateURL, nil)
 	if err != nil {
 		return models.Rate{}, err
 	}
 
 	addQueryParams(req, base, foreign)
+
+	fmt.Println("############# " + rateURL + " ##################")
 
 	res, err := c.client.Do(req)
 	if err != nil {

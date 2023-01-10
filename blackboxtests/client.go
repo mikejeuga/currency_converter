@@ -33,8 +33,6 @@ func (u *TestUser) GetFXRate(base, foreign string) (models.Rate, error) {
 		return models.Rate{}, err
 	}
 
-	fmt.Println("############# " + rateURL + " ##################")
-
 	req, err := http.NewRequest(http.MethodGet, rateURL, nil)
 	if err != nil {
 		return models.Rate{}, err
