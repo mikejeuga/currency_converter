@@ -45,11 +45,10 @@ func (u *TestUser) GetFXRate(base, foreign string) (models.Rate, error) {
 	addQueryParams(req, "1", base, foreign)
 
 	res, err := u.client.Do(req)
+	fmt.Println(res.StatusCode)
 	if err != nil {
 		return models.Rate{}, err
 	}
-
-	fmt.Println(res.StatusCode)
 
 	data, err := io.ReadAll(res.Body)
 	if err != nil {
