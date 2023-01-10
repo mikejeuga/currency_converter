@@ -22,14 +22,13 @@ jobs:
       run: docker build . --file Dockerfile --tag currency-converter:$(date +%s)
 
     - name: Start container
-      run: docker-compose -f docker-compose.yml up -d
-
-    - name: Run functional tests
       env:
         X_API_KEY: ${{ secrets.X_API_KEY }}
         API_URL: ${{ vars.API_URL }}
         BASE_URL: ${{ vars.BASE_URL }}
+      run: docker-compose -f docker-compose.yml up -d
 
+    - name: Run functional tests
       run: make t
 
     - name: Shut down container
