@@ -39,8 +39,6 @@ func (c *Client) GetFXRate(base, foreign string) (models.Rate, error) {
 		return models.Rate{}, err
 	}
 
-	req.Header.Set(auth.TheApiKey, c.config.ApiKey)
-
 	addQueryParams(req, base, foreign)
 
 	res, err := c.client.Do(req)

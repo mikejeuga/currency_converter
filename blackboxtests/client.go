@@ -81,8 +81,6 @@ func (u *TestUser) Convert(amount models.Amount, foreignCurrency string) (models
 	res, err := u.client.Do(req)
 	data, err := io.ReadAll(res.Body)
 
-	fmt.Println(string(data))
-
 	var returnedAmount models.Amount
 	err = json.Unmarshal(data, &returnedAmount)
 	if err != nil {
