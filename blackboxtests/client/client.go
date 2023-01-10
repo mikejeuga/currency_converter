@@ -39,10 +39,11 @@ func (u *TestUser) GetFXRate(base, foreign string) (models.Rate, error) {
 	}
 
 	req.Header.Set(auth.TheApiKey, u.config.ApiKey)
-	req.Header.Set("Content-Type", "application/json")
+
 	addQueryParams(req, "1", base, foreign)
 
 	res, err := u.client.Do(req)
+	fmt.Println(res.StatusCode)
 	if err != nil {
 		return models.Rate{}, err
 	}
