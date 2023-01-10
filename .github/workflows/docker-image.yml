@@ -29,7 +29,8 @@ jobs:
         X_API_KEY: ${{secrets.X_API_KEY}}
         API_URL: ${{secrets.API_URL}}
         BASE_URL: ${{secrets.BASE_URL}}
-      run: make t
+
+      run: echo ${{secrets.BASE_URL}} make t
 
     - name: Shut down container
       run: docker-compose down
