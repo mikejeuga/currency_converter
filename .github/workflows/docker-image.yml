@@ -27,6 +27,8 @@ jobs:
         API_URL: ${{ vars.API_URL }}
         BASE_URL: ${{ vars.BASE_URL }}
       run:
-          docker-compose -f docker-compose.yml up -d
+          make run
           make t
-          docker-compose down
+
+    - name: Shut down container
+      run: docker-compose down
