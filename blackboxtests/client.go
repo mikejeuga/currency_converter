@@ -33,8 +33,6 @@ func (u *TestUser) GetFXRate(base, foreign string) (models.Rate, error) {
 		return models.Rate{}, err
 	}
 
-	fmt.Println(u.config)
-
 	req, err := http.NewRequest(http.MethodGet, rateURL, nil)
 	if err != nil {
 		return models.Rate{}, err
@@ -43,6 +41,8 @@ func (u *TestUser) GetFXRate(base, foreign string) (models.Rate, error) {
 	req.Header.Set(auth.TheApiKey, u.config.ApiKey)
 
 	addQueryParams(req, "1", base, foreign)
+
+	fmt.Println(req.URL.String())
 
 	res, err := u.client.Do(req)
 	if err != nil {
