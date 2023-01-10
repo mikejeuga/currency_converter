@@ -6,13 +6,13 @@ import (
 	"github.com/alecthomas/assert"
 	"github.com/mikejeuga/currency_converter/models"
 	"github.com/mikejeuga/currency_converter/src/domain/currency_conversion"
-	mocks2 "github.com/mikejeuga/currency_converter/src/web/mocks"
+	"github.com/mikejeuga/currency_converter/src/domain/currency_conversion/mocks"
 	"testing"
 )
 
 func TestGateway(t *testing.T) {
 	deps := CreateDeps()
-	gateway := currency_conversion.NewGateway(deps.GatewayMock, currency_conversion.NewService())
+	gateway := currency_conversion.NewGateway(deps.ConversionerMock, currency_conversion.NewService())
 
 	expectedFXRate := 0.92
 	givenGetRateWasCalled(deps, expectedFXRate)
@@ -23,7 +23,7 @@ func TestGateway(t *testing.T) {
 }
 
 func givenGetRateWasCalled(deps Deps, fxRate float64) {
-	deps.GatewayMock.GetFXRateFunc = func(base string, foreign string) (models.Rate, error) {
+	deps.ConversionerMock.GetFXRateFunc = func(base string, foreign string) (models.Rate, error) {
 		return models.Rate{
 			Spot: fxRate,
 		}, nil
@@ -31,11 +31,11 @@ func givenGetRateWasCalled(deps Deps, fxRate float64) {
 }
 
 type Deps struct {
-	GatewayMock *mocks2.GatewayMock
+	ConversionerMock *mocks.ConversionerMock
 }
 
 func CreateDeps() Deps {
 	return Deps{
-		GatewayMock: &mocks2.GatewayMock{},
+		ConversionerMock: &mocks.ConversionerMock{},
 	}
 }

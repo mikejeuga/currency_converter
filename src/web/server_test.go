@@ -8,9 +8,9 @@ import (
 	"github.com/mikejeuga/currency_converter/config"
 	"github.com/mikejeuga/currency_converter/models"
 	"github.com/mikejeuga/currency_converter/src/domain/currency_conversion"
+	"github.com/mikejeuga/currency_converter/src/domain/currency_conversion/mocks"
 	"github.com/mikejeuga/currency_converter/src/web"
 	"github.com/mikejeuga/currency_converter/src/web/auth"
-	mocks2 "github.com/mikejeuga/currency_converter/src/web/mocks"
 	"log"
 	"net/http"
 	"net/http/httptest"
@@ -25,7 +25,7 @@ func TestServer(t *testing.T) {
 		log.Fatal(err.Error())
 	}
 
-	gateway := currency_conversion.NewGateway(deps.GatewayMock, currency_conversion.NewService())
+	gateway := currency_conversion.NewGateway(deps.ConversionerMock, currency_conversion.NewService())
 	server := web.NewServer(testConf, gateway)
 
 	for _, tc := range []struct {
@@ -77,17 +77,17 @@ func TestServer(t *testing.T) {
 }
 
 func givenGetRateWasCalled(deps Deps) {
-	deps.GatewayMock.GetFXRateFunc = func(base string, foreign string) (models.Rate, error) {
+	deps.ConversionerMock.GetFXRateFunc = func(base string, foreign string) (models.Rate, error) {
 		return models.Rate{}, nil
 	}
 }
 
 type Deps struct {
-	GatewayMock *mocks2.GatewayMock
+	ConversionerMock *mocks.ConversionerMock
 }
 
 func CreateDeps() Deps {
 	return Deps{
-		GatewayMock: &mocks2.GatewayMock{},
+		ConversionerMock: &mocks.ConversionerMock{},
 	}
 }

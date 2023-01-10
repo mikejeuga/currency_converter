@@ -7,7 +7,7 @@ import (
 
 //go:generate moq -out mocks/conversioner_moq.go -pkg=mocks . Conversioner
 type Conversioner interface {
-	GetRate(base, foreign string) (models.Rate, error)
+	GetFXRate(base, foreign string) (models.Rate, error)
 }
 
 type Gateway struct {
@@ -20,11 +20,11 @@ func NewGateway(client Conversioner, service *Service) *Gateway {
 }
 
 func (g *Gateway) GetRate(base, foreign string) (models.Rate, error) {
-	return g.client.GetRate(base, foreign)
+	return g.client.GetFXRate(base, foreign)
 }
 
 func (g *Gateway) Convert(amount, baseCurrency, foreignCurrency string) (models.Amount, error) {
-	rate, err := g.client.GetRate(baseCurrency, foreignCurrency)
+	rate, err := g.client.GetFXRate(baseCurrency, foreignCurrency)
 	if err != nil {
 		return models.Amount{}, err
 	}
