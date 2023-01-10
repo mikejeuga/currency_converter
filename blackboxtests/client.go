@@ -54,7 +54,6 @@ func (u *TestUser) GetFXRate(base, foreign string) (models.Rate, error) {
 
 	var rateRes models.Rate
 	err = json.Unmarshal(data, &rateRes)
-	fmt.Println(rateRes)
 	if err != nil {
 		return models.Rate{}, err
 	}
