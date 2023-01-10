@@ -19,6 +19,6 @@ func TestClient(t *testing.T) {
 
 	testUser := client.NewTestUser(cTest)
 
-	_, err = testUser.GetFXRate(models.CHF, models.USD)
+	_, err = testUser.GetFXRate(models.EUR, models.USD)
 	assert.NoError(t, err)
 }
