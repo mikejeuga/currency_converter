@@ -83,10 +83,10 @@ func (u *TestUser) Convert(amount models.Amount, foreignCurrency string) (models
 
 	var returnedAmount models.Amount
 	err = json.Unmarshal(data, &returnedAmount)
+	fmt.Println(returnedAmount)
 	if err != nil {
 		return models.Amount{}, err
 	}
-
 	return returnedAmount, nil
 
 }
