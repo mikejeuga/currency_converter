@@ -58,6 +58,8 @@ func (s *Server) GetRate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fmt.Println(rate)
+
 	err = json.NewEncoder(w).Encode(rate)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
