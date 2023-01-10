@@ -16,7 +16,7 @@ func main() {
 	}
 	client := rateapi.NewClient(rateApiConfig)
 
-	rate, err := client.GetFXRate("GBP", "USD")
+	rate, err := client.GetRate("GBP", "USD")
 	if err != nil {
 		log.Fatal(err.Error())
 	}
