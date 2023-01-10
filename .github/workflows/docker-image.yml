@@ -30,7 +30,7 @@ jobs:
         API_URL: ${{secrets.API_URL}}
         BASE_URL: ${{secrets.BASE_URL}}
 
-      run: make run t
+      run: make t
 
     - name: Shut down container
       run: docker-compose down
