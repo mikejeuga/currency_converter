@@ -45,6 +45,7 @@ func (c *Client) GetFXRate(base, foreign string) (models.Rate, error) {
 	req.Header.Set(auth.TheApiKey, c.config.ApiKey)
 
 	res, err := c.client.Do(req)
+	fmt.Println(res.StatusCode)
 	if err != nil {
 		return models.Rate{}, err
 	}
