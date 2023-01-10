@@ -9,26 +9,26 @@ import (
 	"sync"
 )
 
-// Ensure, that ConverterMock does implement currency_conversion.Converter.
+// Ensure, that ConversionerMock does implement currency_conversion.Conversioner.
 // If this is not the case, regenerate this file with moq.
-var _ currency_conversion.Conversioner = &ConverterMock{}
+var _ currency_conversion.Conversioner = &ConversionerMock{}
 
-// ConverterMock is a mock implementation of currency_conversion.Converter.
+// ConversionerMock is a mock implementation of currency_conversion.Conversioner.
 //
-//	func TestSomethingThatUsesConverter(t *testing.T) {
+//	func TestSomethingThatUsesConversioner(t *testing.T) {
 //
-//		// make and configure a mocked currency_conversion.Converter
-//		mockedConverter := &ConverterMock{
+//		// make and configure a mocked currency_conversion.Conversioner
+//		mockedConversioner := &ConversionerMock{
 //			GetFXRateFunc: func(base string, foreign string) (models.Rate, error) {
 //				panic("mock out the GetFXRate method")
 //			},
 //		}
 //
-//		// use mockedConverter in code that requires currency_conversion.Converter
+//		// use mockedConversioner in code that requires currency_conversion.Conversioner
 //		// and then make assertions.
 //
 //	}
-type ConverterMock struct {
+type ConversionerMock struct {
 	// GetFXRateFunc mocks the GetFXRate method.
 	GetFXRateFunc func(base string, foreign string) (models.Rate, error)
 
@@ -46,9 +46,9 @@ type ConverterMock struct {
 }
 
 // GetFXRate calls GetFXRateFunc.
-func (mock *ConverterMock) GetFXRate(base string, foreign string) (models.Rate, error) {
+func (mock *ConversionerMock) GetFXRate(base string, foreign string) (models.Rate, error) {
 	if mock.GetFXRateFunc == nil {
-		panic("ConverterMock.GetFXRateFunc: method is nil but Converter.GetFXRate was just called")
+		panic("ConversionerMock.GetFXRateFunc: method is nil but Conversioner.GetFXRate was just called")
 	}
 	callInfo := struct {
 		Base    string
@@ -66,8 +66,8 @@ func (mock *ConverterMock) GetFXRate(base string, foreign string) (models.Rate, 
 // GetFXRateCalls gets all the calls that were made to GetFXRate.
 // Check the length with:
 //
-//	len(mockedConverter.GetFXRateCalls())
-func (mock *ConverterMock) GetFXRateCalls() []struct {
+//	len(mockedConversioner.GetFXRateCalls())
+func (mock *ConversionerMock) GetFXRateCalls() []struct {
 	Base    string
 	Foreign string
 } {

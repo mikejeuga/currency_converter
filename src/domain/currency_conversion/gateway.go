@@ -5,17 +5,17 @@ import (
 	"strconv"
 )
 
-//go:generate moq -out mocks/converter_moq.go -pkg=mocks . Converter
-type Converter interface {
+//go:generate moq -out mocks/conversioner_moq.go -pkg=mocks . Conversioner
+type Conversioner interface {
 	GetFXRate(base, foreign string) (models.Rate, error)
 }
 
 type Gateway struct {
-	client  Converter
+	client  Conversioner
 	service *Service
 }
 
-func NewGateway(client Converter, service *Service) *Gateway {
+func NewGateway(client Conversioner, service *Service) *Gateway {
 	return &Gateway{client: client, service: service}
 }
 
