@@ -6,7 +6,6 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/mikejeuga/currency_converter/config"
 	"github.com/mikejeuga/currency_converter/models"
-	"github.com/mikejeuga/currency_converter/src/web/auth"
 	"net/http"
 )
 
@@ -27,7 +26,7 @@ func NewServer(conf config.Config, converter Gateway) *http.Server {
 		converter: converter,
 	}
 
-	r.Use(auth.NewMiddleware(conf))
+	//r.Use(auth.NewMiddleware(conf))
 
 	r.HandleFunc("/", s.Home).Methods(http.MethodGet)
 	r.HandleFunc("/rate", s.GetRate).Methods(http.MethodGet)
