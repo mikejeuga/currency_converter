@@ -2,7 +2,6 @@ package rateapi
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/mikejeuga/currency_converter/models"
 	"github.com/mikejeuga/currency_converter/src/web/auth"
 	"io"
@@ -30,7 +29,6 @@ func NewClient(config Config) *Client {
 }
 
 func (c *Client) GetFXRate(base, foreign string) (models.Rate, error) {
-	fmt.Println(c.config)
 	rateURL, err := url.JoinPath(c.config.ApiURL, "convertcurrency")
 	if err != nil {
 		return models.Rate{}, err

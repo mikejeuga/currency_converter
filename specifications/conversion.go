@@ -1,7 +1,6 @@
 package specifications
 
 import (
-	"fmt"
 	"github.com/alecthomas/assert"
 	"github.com/mikejeuga/currency_converter/models"
 	"testing"
@@ -36,9 +35,6 @@ func (s *CurrencyConversionSpec) CanConverterBaseToForeign(t *testing.T) {
 	//Then I get a converted amount at the correct FX rate
 	rate, err := s.converter.GetFXRate(models.GBP, models.USD)
 	assert.NoError(t, err)
-
-	fmt.Println(convertedAmount.Unit / amountToConvert.Unit)
-	fmt.Println(rate.Spot)
 
 	assert.Equal(t, convertedAmount.Unit/amountToConvert.Unit, rate.Spot)
 }

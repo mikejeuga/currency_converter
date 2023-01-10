@@ -11,6 +11,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"strings"
 	"time"
 )
 
@@ -24,6 +25,7 @@ func NewTestUser(config config.Config) *TestUser {
 		Transport: http.DefaultTransport,
 		Timeout:   10 * time.Second,
 	}
+
 	return &TestUser{config: config, client: c}
 }
 
@@ -43,7 +45,6 @@ func (u *TestUser) GetFXRate(base, foreign string) (models.Rate, error) {
 	addQueryParams(req, "1", base, foreign)
 
 	res, err := u.client.Do(req)
-	fmt.Println(res.StatusCode)
 	if err != nil {
 		return models.Rate{}, err
 	}
@@ -53,8 +54,14 @@ func (u *TestUser) GetFXRate(base, foreign string) (models.Rate, error) {
 		return models.Rate{}, err
 	}
 
+	if string(data) == "" {
+		return models.Rate{}, err
+	}
+
+	suffix := strings.TrimSuffix(string(data), "\n")
+
 	var rateRes models.Rate
-	err = json.Unmarshal(data, &rateRes)
+	err = json.Unmarshal([]byte(suffix), &rateRes)
 	if err != nil {
 		return models.Rate{}, err
 	}
