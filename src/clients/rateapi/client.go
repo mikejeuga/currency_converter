@@ -30,7 +30,6 @@ func NewClient(config Config) *Client {
 }
 
 func (c *Client) GetFXRate(base, foreign string) (models.Rate, error) {
-	fmt.Println(c.config)
 	rateURL, err := url.JoinPath(c.config.ApiURL, "convertcurrency")
 	if err != nil {
 		return models.Rate{}, err
@@ -42,8 +41,6 @@ func (c *Client) GetFXRate(base, foreign string) (models.Rate, error) {
 	}
 
 	addQueryParams(req, base, foreign)
-
-	fmt.Println(req.Header)
 
 	//req.Header.Set(auth.TheApiKey, c.config.ApiKey)
 
