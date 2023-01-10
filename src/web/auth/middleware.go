@@ -16,7 +16,7 @@ func NewMiddleware(config config.Config) func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			headerVal := r.Header.Get(TheApiKey)
 			if headerVal != config.ApiKey {
-				fmt.Println(GetMD5Hash(headerVal) + " is not" + GetMD5Hash(config.ApiKey))
+				fmt.Println(headerVal + " is not " + config.ApiKey)
 				w.WriteHeader(http.StatusUnauthorized)
 				return
 			}
