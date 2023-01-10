@@ -30,6 +30,7 @@ func NewClient(config Config) *Client {
 }
 
 func (c *Client) GetFXRate(base, foreign string) (models.Rate, error) {
+	fmt.Println(c.config)
 	rateURL, err := url.JoinPath(c.config.ApiURL, "convertcurrency")
 	if err != nil {
 		return models.Rate{}, err
