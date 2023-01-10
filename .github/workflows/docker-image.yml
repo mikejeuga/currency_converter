@@ -14,9 +14,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-      with:
-        go-version: 1.19
-
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag currency-converter:$(date +%s)
 
@@ -24,6 +21,8 @@ jobs:
       run: docker-compose -f docker-compose.yml up -d
 
     - name: Run functional tests
+      with:
+        go-version: 1.19
       env:
         X_API_KEY: ${{secrets.X_API_KEY}}
         API_URL: ${{secrets.API_URL}}
