@@ -98,7 +98,9 @@ func (u *TestUser) Convert(amount models.Amount, foreignCurrency string) (models
 
 func addQueryParams(req *http.Request, amount, base, foreign string) {
 	q := req.URL.Query()
-	q.Add("amount", amount)
+	if amount != "1" {
+		q.Add("amount", amount)
+	}
 	q.Add("have", base)
 	q.Add("want", foreign)
 	req.URL.RawQuery = q.Encode()

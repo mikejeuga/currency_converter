@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/kelseyhightower/envconfig"
 	"github.com/mikejeuga/currency_converter/config"
 	"github.com/mikejeuga/currency_converter/src/clients/rateapi"
@@ -18,13 +17,10 @@ func main() {
 	}
 
 	var c config.Config
-	err = envconfig.Process("", &c)
+	err = envconfig.Process("kfkf", &c)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-
-	fmt.Println(rateApiConfig)
-	fmt.Println(c)
 
 	client := rateapi.NewClient(rateApiConfig)
 	service := currency_conversion.NewService()
