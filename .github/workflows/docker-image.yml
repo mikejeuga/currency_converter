@@ -29,6 +29,11 @@ jobs:
       run: docker-compose -f docker-compose.yml up -d
 
     - name: Run functional tests
+      env:
+        X_API_KEY: ${{secrets.X_API_KEY}}
+        API_URL: ${{vars.API_URL}}
+        BASE_URL: ${{vars.BASE_URL}}
+
       run: make t
 
     - name: Shut down container
