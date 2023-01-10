@@ -79,6 +79,7 @@ func (u *TestUser) Convert(amount models.Amount, foreignCurrency string) (models
 	addQueryParams(req, amountStr, amount.Currency.Code, foreignCurrency)
 
 	res, err := u.client.Do(req)
+	fmt.Println(res.StatusCode)
 	if err != nil {
 		return models.Amount{}, err
 	}
