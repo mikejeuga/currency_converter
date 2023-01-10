@@ -42,7 +42,7 @@ func (u *TestUser) GetFXRate(base, foreign string) (models.Rate, error) {
 
 	addQueryParams(req, "1", base, foreign)
 
-	fmt.Println(req.URL.String())
+	fmt.Println(req.Header.Values(auth.TheApiKey))
 
 	res, err := u.client.Do(req)
 	if err != nil {
