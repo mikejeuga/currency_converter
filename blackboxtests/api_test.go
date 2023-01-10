@@ -3,6 +3,7 @@
 package blackboxtests
 
 import (
+	"fmt"
 	"github.com/kelseyhightower/envconfig"
 	"github.com/mikejeuga/currency_converter/config"
 	"github.com/mikejeuga/currency_converter/specifications"
@@ -16,6 +17,8 @@ func TestAPI(t *testing.T) {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+
+	fmt.Println(c.ApiKey)
 
 	testUser := NewTestUser(c)
 	spec := specifications.NewCurrencyConversionSpec(testUser)
