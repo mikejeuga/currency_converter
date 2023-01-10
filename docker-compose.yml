@@ -3,6 +3,10 @@ services:
   app:
     ports:
       - '8002:8002'
+    environment:
+      - "X_API_KEY: ${X_API_KEY}"
+      - "API_URL: ${API_URL}"
+      - "BASE_URL: ${BASE_URL}"
     restart: on-failure
     build:
       context: .
