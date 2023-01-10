@@ -1,6 +1,10 @@
 version: '3.8'
 services:
   app:
+    environment:
+      - "X_API_KEY: ${X_API_KEY}"
+      - "API_URL: ${API_URL}"
+      - "BASE_URL: ${BASE_URL}"
     ports:
       - '8002:8002'
     environment:
