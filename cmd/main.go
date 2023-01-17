@@ -23,8 +23,7 @@ func main() {
 	}
 
 	client := rateapi.NewClient(rateApiConfig)
-	service := currency_conversion.NewService()
-	gateway := currency_conversion.NewGateway(client, service)
+	gateway := currency_conversion.NewService(client)
 	server := web.NewServer(c, gateway)
 
 	err = server.ListenAndServe()

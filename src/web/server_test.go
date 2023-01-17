@@ -25,7 +25,7 @@ func TestServer(t *testing.T) {
 		log.Fatal(err.Error())
 	}
 
-	gateway := currency_conversion.NewGateway(deps.ConversionerMock, currency_conversion.NewService())
+	gateway := currency_conversion.NewService(deps.ConversionerMock)
 	server := web.NewServer(testConf, gateway)
 
 	for _, tc := range []struct {

@@ -6,28 +6,36 @@ import (
 	"github.com/alecthomas/assert"
 	"github.com/mikejeuga/currency_converter/models"
 	"github.com/mikejeuga/currency_converter/src/domain/currency_conversion"
+	"github.com/mikejeuga/currency_converter/src/domain/currency_conversion/mocks"
 	"testing"
 )
 
-func TestService(t *testing.T) {
-	//GIVEN a base amount and an exchange rate,
-	amount := models.Amount{
-		Unit: 1000,
-		Currency: models.Currency{
-			Code: models.GBP,
-		},
+func TestGateway(t *testing.T) {
+	deps := CreateDeps()
+	gateway := currency_conversion.NewService(deps.ConversionerMock)
+
+	expectedFXRate := 0.92
+	givenGetRateWasCalled(deps, expectedFXRate)
+
+	rate, err := gateway.GetRate(models.GBP, models.USD)
+	assert.NoError(t, err)
+	assert.Equal(t, expectedFXRate, rate.Spot)
+}
+
+func givenGetRateWasCalled(deps Deps, fxRate float64) {
+	deps.ConversionerMock.GetFXRateFunc = func(base string, foreign string) (models.Rate, error) {
+		return models.Rate{
+			Spot: fxRate,
+		}, nil
 	}
+}
 
-	exchangeRate := models.Rate{
-		Spot: 0.92,
+type Deps struct {
+	ConversionerMock *mocks.ConversionerMock
+}
+
+func CreateDeps() Deps {
+	return Deps{
+		ConversionerMock: &mocks.ConversionerMock{},
 	}
-
-	service := currency_conversion.NewService()
-
-	//WHEN the service converts the base currency,
-	convertedAmount := service.Convert(amount, "USD", exchangeRate)
-
-	//THEN the conversion is executed at the correct rate.
-	actualRate := convertedAmount.Unit / amount.Unit
-	assert.Equal(t, exchangeRate.Spot, actualRate)
 }

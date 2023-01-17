@@ -8,12 +8,13 @@ import (
 	"github.com/mikejeuga/currency_converter/models"
 	"github.com/mikejeuga/currency_converter/src/web/auth"
 	"net/http"
+	"strconv"
 )
 
 //go:generate moq -out mocks/gateway_moq.go -pkg=mocks . Gateway
 type Gateway interface {
 	GetRate(base, foreign string) (models.Rate, error)
-	Convert(amount, baseCurrency, foreignCurrency string) (models.Amount, error)
+	Convert(amount float64, baseCurrency, foreignCurrency string) (models.Amount, error)
 }
 
 type Server struct {
@@ -78,7 +79,12 @@ func (s *Server) Convert(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	convert, err := s.converter.Convert(baseAmount, baseCurrency, fxCurrency)
+	amount, err := strconv.ParseFloat(baseAmount, 64)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	convert, err := s.converter.Convert(amount, baseCurrency, fxCurrency)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return

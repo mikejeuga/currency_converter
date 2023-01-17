@@ -19,11 +19,11 @@ var _ web.Gateway = &GatewayMock{}
 //
 //		// make and configure a mocked web.Gateway
 //		mockedGateway := &GatewayMock{
-//			ConvertFunc: func(amount string, baseCurrency string, foreignCurrency string) (models.Amount, error) {
+//			ConvertFunc: func(amount float64, baseCurrency string, foreignCurrency string) (models.Amount, error) {
 //				panic("mock out the Convert method")
 //			},
-//			GetFXRateFunc: func(base string, foreign string) (models.Rate, error) {
-//				panic("mock out the GetFXRate method")
+//			GetRateFunc: func(base string, foreign string) (models.Rate, error) {
+//				panic("mock out the GetRate method")
 //			},
 //		}
 //
@@ -33,41 +33,41 @@ var _ web.Gateway = &GatewayMock{}
 //	}
 type GatewayMock struct {
 	// ConvertFunc mocks the Convert method.
-	ConvertFunc func(amount string, baseCurrency string, foreignCurrency string) (models.Amount, error)
+	ConvertFunc func(amount float64, baseCurrency string, foreignCurrency string) (models.Amount, error)
 
-	// GetFXRateFunc mocks the GetFXRate method.
-	GetFXRateFunc func(base string, foreign string) (models.Rate, error)
+	// GetRateFunc mocks the GetRate method.
+	GetRateFunc func(base string, foreign string) (models.Rate, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
 		// Convert holds details about calls to the Convert method.
 		Convert []struct {
 			// Amount is the amount argument value.
-			Amount string
+			Amount float64
 			// BaseCurrency is the baseCurrency argument value.
 			BaseCurrency string
 			// ForeignCurrency is the foreignCurrency argument value.
 			ForeignCurrency string
 		}
-		// GetFXRate holds details about calls to the GetFXRate method.
-		GetFXRate []struct {
+		// GetRate holds details about calls to the GetRate method.
+		GetRate []struct {
 			// Base is the base argument value.
 			Base string
 			// Foreign is the foreign argument value.
 			Foreign string
 		}
 	}
-	lockConvert   sync.RWMutex
-	lockGetFXRate sync.RWMutex
+	lockConvert sync.RWMutex
+	lockGetRate sync.RWMutex
 }
 
 // Convert calls ConvertFunc.
-func (mock *GatewayMock) Convert(amount string, baseCurrency string, foreignCurrency string) (models.Amount, error) {
+func (mock *GatewayMock) Convert(amount float64, baseCurrency string, foreignCurrency string) (models.Amount, error) {
 	if mock.ConvertFunc == nil {
 		panic("GatewayMock.ConvertFunc: method is nil but Gateway.Convert was just called")
 	}
 	callInfo := struct {
-		Amount          string
+		Amount          float64
 		BaseCurrency    string
 		ForeignCurrency string
 	}{
@@ -86,12 +86,12 @@ func (mock *GatewayMock) Convert(amount string, baseCurrency string, foreignCurr
 //
 //	len(mockedGateway.ConvertCalls())
 func (mock *GatewayMock) ConvertCalls() []struct {
-	Amount          string
+	Amount          float64
 	BaseCurrency    string
 	ForeignCurrency string
 } {
 	var calls []struct {
-		Amount          string
+		Amount          float64
 		BaseCurrency    string
 		ForeignCurrency string
 	}
@@ -101,10 +101,10 @@ func (mock *GatewayMock) ConvertCalls() []struct {
 	return calls
 }
 
-// GetFXRate calls GetFXRateFunc.
+// GetRate calls GetRateFunc.
 func (mock *GatewayMock) GetRate(base string, foreign string) (models.Rate, error) {
-	if mock.GetFXRateFunc == nil {
-		panic("GatewayMock.GetFXRateFunc: method is nil but Gateway.GetFXRate was just called")
+	if mock.GetRateFunc == nil {
+		panic("GatewayMock.GetRateFunc: method is nil but Gateway.GetRate was just called")
 	}
 	callInfo := struct {
 		Base    string
@@ -113,17 +113,17 @@ func (mock *GatewayMock) GetRate(base string, foreign string) (models.Rate, erro
 		Base:    base,
 		Foreign: foreign,
 	}
-	mock.lockGetFXRate.Lock()
-	mock.calls.GetFXRate = append(mock.calls.GetFXRate, callInfo)
-	mock.lockGetFXRate.Unlock()
-	return mock.GetFXRateFunc(base, foreign)
+	mock.lockGetRate.Lock()
+	mock.calls.GetRate = append(mock.calls.GetRate, callInfo)
+	mock.lockGetRate.Unlock()
+	return mock.GetRateFunc(base, foreign)
 }
 
-// GetFXRateCalls gets all the calls that were made to GetFXRate.
+// GetRateCalls gets all the calls that were made to GetRate.
 // Check the length with:
 //
-//	len(mockedGateway.GetFXRateCalls())
-func (mock *GatewayMock) GetFXRateCalls() []struct {
+//	len(mockedGateway.GetRateCalls())
+func (mock *GatewayMock) GetRateCalls() []struct {
 	Base    string
 	Foreign string
 } {
@@ -131,8 +131,8 @@ func (mock *GatewayMock) GetFXRateCalls() []struct {
 		Base    string
 		Foreign string
 	}
-	mock.lockGetFXRate.RLock()
-	calls = mock.calls.GetFXRate
-	mock.lockGetFXRate.RUnlock()
+	mock.lockGetRate.RLock()
+	calls = mock.calls.GetRate
+	mock.lockGetRate.RUnlock()
 	return calls
 }
