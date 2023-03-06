@@ -20,5 +20,5 @@ func TestAPI(t *testing.T) {
 
 	testUser := client.NewTestUser(c)
 	spec := specifications.NewCurrencyConversionSpec(testUser)
-	spec.CanConverterBaseToForeign(t)
+	spec.CanConverterBaseToForeign(t, 2000.00)
 }

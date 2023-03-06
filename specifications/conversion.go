@@ -19,10 +19,10 @@ func NewCurrencyConversionSpec(converter Converter) *CurrencyConversionSpec {
 	return &CurrencyConversionSpec{converter: converter}
 }
 
-func (s *CurrencyConversionSpec) CanConverterBaseToForeign(t *testing.T) {
+func (s *CurrencyConversionSpec) CanConverterBaseToForeign(t *testing.T, amount float64) {
 	//Given a base amount (GBP) in my bank account
 	amountToConvert := models.Amount{
-		Unit: 2000,
+		Unit: amount,
 		Currency: models.Currency{
 			Code: models.GBP,
 		},

@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/kelseyhightower/envconfig"
-	"github.com/mikejeuga/currency_converter/src/clients/rateapi"
+	"github.com/mikejeuga/currency_converter/src/gateway/rateapi"
 	"log"
 )
 

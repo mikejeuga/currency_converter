@@ -3,8 +3,8 @@ package main
 import (
 	"github.com/kelseyhightower/envconfig"
 	"github.com/mikejeuga/currency_converter/config"
-	"github.com/mikejeuga/currency_converter/src/clients/rateapi"
 	"github.com/mikejeuga/currency_converter/src/domain/currency_conversion"
+	"github.com/mikejeuga/currency_converter/src/gateway/rateapi"
 	"github.com/mikejeuga/currency_converter/src/web"
 	"log"
 )
